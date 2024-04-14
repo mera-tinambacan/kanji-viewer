@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSV Viewer</title>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        table-layout: fixed;
+    }
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    th {
+        background-color: #FFEFEF;
+    }
+    tr:nth-child(even) {
+        background-color: #F0EBE3;
+        font-size: 12px;
+    }
+    tr:nth-child(odd) {
+        background-color: #F6F5F2;
+        font-size: 24px;
+    }
+    tr:nth-child(odd) td {
+        text-align: center;
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+</head>
+<body>
+
+<h2>Kanji Viewer</h2>
+
+<input type="file" id="fileInput" accept=".csv">
+<br><br>
+<button onclick="parseCSV()">Upload and View CSV</button>
+<br><br>
+
+<table id="dataTable">
+    <!-- Table content will be inserted here -->
+</table>
+
+<script>
+function parseCSV() {
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput.files[0];
+    
+    if (file) {
+        Papa.parse(file, {
+            complete: function(results) {
+                const data = results.data;
+                const table = document.getElementById('dataTable');
+                
+                // Clear previous table data
+                table.innerHTML = '';
+
+                data.forEach(function(row) {
+                    const tableRow = document.createElement('tr');
+                    row.forEach(function(cell) {
+                        const tableCell = document.createElement('td');
+                        tableCell.textContent = cell;
+                        tableRow.appendChild(tableCell);
+                    });
+                    table.appendChild(tableRow);
+                });
+            }
+        });
+    } else {
+        alert('Please select a file.');
+    }
+}
+</script>
+
+</body>
+</html>
