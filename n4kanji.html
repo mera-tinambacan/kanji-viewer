@@ -3,8 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
 <title>CSV Viewer</title>
 <style>
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* font-family: 'Roboto', sans-serif; */
+    }
+
+    #header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    #header input[type="file"] {
+        display: none; /* Hide the default file input button */
+    }
+
+    #fileInputLabel {
+        background-color: #dcc635; /* Warning color */
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #fileInputLabel:hover {
+        background-color: #f7d52a; /* Darker shade for hover */
+    }
+
     table {
         border-collapse: collapse;
         width: 100%;
@@ -37,12 +72,11 @@
 </head>
 <body>
 
-<h2>Kanji Viewer</h2>
-
-<input type="file" id="fileInput" accept=".csv">
-<br><br>
-<button onclick="parseCSV()">Upload and View CSV</button>
-<br><br>
+<div id="header">
+    <h2>漢字 VIEWER</h2>
+    <label for="fileInput" id="fileInputLabel">Choose File</label>
+    <input type="file" id="fileInput" accept=".csv">
+</div>
 
 <table id="dataTable">
     <!-- Table content will be inserted here -->
@@ -77,6 +111,8 @@ function parseCSV() {
         alert('Please select a file.');
     }
 }
+
+document.getElementById('fileInput').addEventListener('change', parseCSV);
 </script>
 
 </body>
