@@ -6,7 +6,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
-<title>CSV Viewer</title>
+<title>Kanji Viewer</title>
 <style>
     body {
         display: flex;
@@ -76,9 +76,7 @@
 <body>
 
 <div id="header">
-    <h2>漢字 VIEWER</h2>
-    <label for="fileInput" id="fileInputLabel">Choose File</label>
-    <input type="file" id="fileInput" accept=".csv">
+    <h2>Kanji VIEWER</h2>
 </div>
 
 <table id="dataTable">
@@ -87,35 +85,31 @@
 
 <script>
 function parseCSV() {
-    const fileInput = document.getElementById('fileInput');
-    const file = fileInput.files[0];
-    
-    if (file) {
-        Papa.parse(file, {
-            complete: function(results) {
-                const data = results.data;
-                const table = document.getElementById('dataTable');
-                
-                // Clear previous table data
-                table.innerHTML = '';
+    Papa.parse('kanji.csv', {
+        download: true,
+        complete: function(results) {
+            console.log("CSV Data:", results.data); // Log CSV data to console
+            const data = results.data;
+            const table = document.getElementById('dataTable');
+            
+            // Clear previous table data
+            table.innerHTML = '';
 
-                data.forEach(function(row) {
-                    const tableRow = document.createElement('tr');
-                    row.forEach(function(cell) {
-                        const tableCell = document.createElement('td');
-                        tableCell.textContent = cell;
-                        tableRow.appendChild(tableCell);
-                    });
-                    table.appendChild(tableRow);
+            data.forEach(function(row) {
+                const tableRow = document.createElement('tr');
+                row.forEach(function(cell) {
+                    const tableCell = document.createElement('td');
+                    tableCell.textContent = cell;
+                    tableRow.appendChild(tableCell);
                 });
-            }
-        });
-    } else {
-        alert('Please select a file.');
-    }
+                table.appendChild(tableRow);
+            });
+        }
+    });
 }
 
-document.getElementById('fileInput').addEventListener('change', parseCSV);
+parseCSV(); // Automatically load the CSV file on page load
+
 </script>
 
 </body>
